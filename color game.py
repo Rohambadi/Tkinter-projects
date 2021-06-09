@@ -45,7 +45,7 @@ scorelabel.pack()
 timelabel = Label(root, text="Time Left: "+str(timeleft), font=('Tahoma', 12))
 timelabel.pack()
 
-label = Label(root, font=('Tahoma', 14))
+label = Label(root, font=('Tahoma', 30))
 label.pack()
 
 e = Entry(root)
