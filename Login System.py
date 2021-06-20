@@ -25,21 +25,30 @@ class main:
         # with this method, the user login if had an account
         with sqlite3.connect('Logdb.db') as db:
             c = db.cursor()
-        find_user = ('SELECT * FROM user WHERE username=? and password=?')
+        find_user = 'SELECT * FROM user WHERE username=? and password=?'
         c.execute(find_user, [(self.username.get()), (self.password.get())])
         result = c.fetchall()
         if result:
             self.logf.pack_forget()
             self.head['text'] = self.username.get() + '\n Logged in'
             self.head['pady'] = 150
+            self.logou.pack()
         else:
             ms.showerror("Oops!", "Username Not Found.")
+
+    def logout(self):
+        self.head['text'] = 'LOGIN'
+        self.head['pady'] = 10
+        self.logou.pack_forget()
+        self.logf.pack()
+        self.username.set('')
+        self.password.set('')
 
     def new_user(self):
         # with this method , the user create an account
         with sqlite3.connect('Logdb.db') as db:
             c = db.cursor()
-        find_user = ('SELECT * FROM user WHERE username=?')
+        find_user = 'SELECT * FROM user WHERE username=?'
         c.execute(find_user, [(self.username.get())])
         if c.fetchall():
             ms.showerror('Error!', 'Username Taken! try a diffrent one')
@@ -85,7 +94,8 @@ class main:
         Entry(self.crf, textvariable=self.n_password, bd=5, font=('', 15), show='*').grid(row=1, column=1)
         Button(self.crf, text="Create Account", bd=3, font=('', 15), padx=5, pady=5, command=self.new_user).grid()
         Button(self.crf, text="Go To Login", font=('', 15), padx=5, pady=5, command=self.log).grid(row=2, column=1)
-
+        self.logou = Frame(self.master, padx=10, pady=10)
+        Button(self.logou, text="Logout", font=('', 15), padx=5, pady=5, command=self.logout).grid(row=5, column=5)
 
 root = Tk()
 main(root)
